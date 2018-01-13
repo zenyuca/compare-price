@@ -1,0 +1,26 @@
+@-moz-document url-prefix(http://),url-prefix(https://) {
+  /* 滚动条颜色 */
+  scrollbar {
+    -moz-appearance: none !important;
+    background: #C4C9CB !important;
+  }
+  /* 滚动条按钮颜色 */
+  thumb,scrollbarbutton {
+    -moz-appearance: none !important;
+    background-color: rgb(0,0,255) !important;
+  }
+  /* 鼠标悬停时按钮颜色 */
+
+  thumb:hover,scrollbarbutton:hover {
+    -moz-appearance: none !important;
+    background-color: rgb(255,0,0) !important;
+  }
+  /* 隐藏上下箭头 */
+  scrollbarbutton {
+    display: none !important;
+  }
+  /* 纵向滚动条宽度 */
+  scrollbar[orient="vertical"] {
+    min-width: 4px !important;
+  }
+}

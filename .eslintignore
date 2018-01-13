@@ -1,0 +1,4 @@
+build/*.js
+config/*.js
+manage/*.js
+src/core/socket/*.js
