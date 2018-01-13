@@ -2,9 +2,7 @@
   #rou
     c-header(:menuNames="menuNames")
       .toolbar(slot="right")
-        .btn-export.btn-upload(@click="inputExcel")
-          | 导入
-          input(id="input-file", type="file", accept="application/vnd.ms-excel", @change="uploadExcel($event)")
+        import-btn()
         el-button(type="primary", @click="exportExcel", style="margin-right: 40px; width: 180px;")
           | 导出
     .wrapper-list-content
@@ -25,6 +23,7 @@
 
 <script>
   import CHeader from '../../common/header/cHeader.vue'
+  import importBtn from '../common/importBtn'
   import CPage from '../../common/page/cPage.vue'
   import filters from '../../../core/filters/index'
   import { mapGetters, mapActions } from 'vuex'
@@ -33,6 +32,7 @@
     name: 'rou',
     components: {
       CHeader,
+      importBtn,
       CPage
     },
     data () {

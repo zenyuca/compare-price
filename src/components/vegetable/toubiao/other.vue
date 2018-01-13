@@ -1,6 +1,10 @@
 <template lang="pug">
   #rou
     c-header(:menuNames="menuNames")
+      .toolbar(slot="right")
+        import-btn()
+        el-button(type="primary", @click="exportExcel", style="margin-right: 40px; width: 180px;")
+          | 导出
     .wrapper-list-content
       .wrapper-list-middle
         .list
@@ -20,6 +24,7 @@
 <script>
   import CHeader from '../../common/header/cHeader.vue'
   import CPage from '../../common/page/cPage.vue'
+  import importBtn from '../common/importBtn'
   import filters from '../../../core/filters/index'
   import { mapGetters, mapActions } from 'vuex'
 
@@ -27,6 +32,7 @@
     name: 'rou',
     components: {
       CHeader,
+      importBtn,
       CPage
     },
     data () {

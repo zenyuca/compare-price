@@ -2,7 +2,7 @@
   #common-menu
     .header
       .wrapper-logo
-        | 菜品竞价管理系统
+        | 食堂招投标后台管理系统
       .wrapper-user
         el-dropdown(trigger="click", @command="handleCommand")
           span.el-dropdown-link

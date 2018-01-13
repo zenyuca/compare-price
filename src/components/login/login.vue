@@ -2,7 +2,7 @@
   #login
     .wrapper
       .logo
-        | XX物业招投标后台管理系统
+        | 食堂招投标后台管理系统
       .box-login
         .title
           | 用户登录
@@ -46,6 +46,12 @@
       ...mapGetters(['getAccount', 'getShareData'])
     },
     created () {
+    },
+    mounted () {
+      let pe = document.getElementById('login')
+      let e = document.querySelector('.wrapper')
+      let h = e.clientHeight
+      pe.style['padding-top'] = `${(pe.clientHeight - h) / 2}px`
     },
     methods: {
       ...mapActions(['storeAccount', 'getSysApi', 'storeSetting', 'marrylogin', 'loginPassword', 'getProtocol']),
@@ -91,9 +97,10 @@
 
   #login {
     background-color: #00b1c6;
+    background-image: url("./icon/bg.jpeg");
+    background-repeat: no-repeat;
     width: 100vw;
     height: 100vh;
-    padding-top: 200px;
     box-sizing: border-box;
     .wrapper {
       margin: 0px auto;
