@@ -2,13 +2,14 @@
   #rou
     c-header(:menuNames="menuNames")
       .toolbar(slot="right")
-        import-btn()
         el-button(type="primary", @click="exportExcel", style="margin-right: 40px; width: 180px;")
           | 导出
     .wrapper-list-content
       .wrapper-list-middle
         .list
           .notices
+            .title
+              | 2018-1-25 蔬菜招标模板
             el-table(:data='tableData', :border="false", row-class-name="notices-row")
               el-table-column(label-class-name='notices-header', align='center', width="77", prop='number', label='序号', fixed="left")
               el-table-column(label-class-name='notices-header', align='center', prop='name', label='红娘姓名')

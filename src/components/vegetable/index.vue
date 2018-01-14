@@ -5,7 +5,7 @@
 </template>
 
 <script>
-  import CHeader from '../../../common/header/cHeader.vue'
+  import CHeader from '../common/header/cHeader.vue'
   import { mapGetters, mapActions } from 'vuex'
 
   export default {
@@ -35,13 +35,13 @@
 </script>
 
 <style lang="less">
-  @import "common/common";
-
   #index {
     .content {
       text-align: center;
       width: 100%;
       font-size: 24px;
+      letter-spacing: 2px;
+      padding-top: 200px;
     }
   }
 </style>

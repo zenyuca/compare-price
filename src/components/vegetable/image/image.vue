@@ -2,6 +2,12 @@
   #rou
     c-header(:menuNames="menuNames")
       .toolbar(slot="right")
+        .searcher
+          .select
+            el-select(v-model="searchType", @change="searchTypeSelect")
+              el-option(v-for="item in searchOptions", :key="item.value", :label="item.label", :value="item.value")
+          .input
+            el-input(placeholder="搜索", icon="search", v-model="searchText", :on-icon-click="handleSeach")
         el-button(type="primary", @click="add", style="margin-right: 40px; width: 180px;")
           | 上传图片
     .wrapper-list-content
@@ -21,6 +27,8 @@
                     | 修改
                   el-button.btn-del(type='text', size='small',@click="del(scope.row.id)")
                     | 删除
+          .bar-page
+            c-page(:callBack="loadData")
           el-dialog(v-model="showForm", size="tiny", :title="dialogTitle")
             el-form(:model="info", :rules="rules", ref="ruleForm", label-position="top", class="public-form")
               el-form-item(label="图片名称", prop="name")
@@ -57,6 +65,14 @@
             name: '圖片管理',
             route: '',
             on: true
+          }
+        ],
+        searchText: '',
+        searchType: '1',
+        searchOptions: [
+          {
+            value: '1',
+            label: '图片名称'
           }
         ],
         dialogImageUrl: '',
@@ -161,6 +177,18 @@
         this.activity.pictures = _.remove(this.activity.pictures, (e) => {
           return e.id !== id
         })
+      },
+      searchTypeSelect (data) {
+        this.searchType = data
+      },
+      handleSeach () {
+        this.resetChangePage()
+        this.loadData()
+      },
+      resetChangePage () {
+        this.getPage.page = 1
+        this.notices = []
+        this.getPage.hasNextPage = true
       }
     }
   }

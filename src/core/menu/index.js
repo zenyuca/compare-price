@@ -7,7 +7,7 @@ const menus = [
     routeSet: [
       {
         path: '/index',
-        componentPath: 'business/interest/love/index.vue'
+        componentPath: 'vegetable/index.vue'
       }
     ]
   },
