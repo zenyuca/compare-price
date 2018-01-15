@@ -17,7 +17,7 @@ const menus = [
     icon: '',
     children: [
       {
-        id: '/vegetable/zhaobiao/rou',
+        id: '/vegetable/zhaobiao/cai',
         parentId: '/vegetable/zhaobiao',
         name: '菜品招标',
         route: '/vegetable/zhaobiao/cai',
@@ -41,7 +41,7 @@ const menus = [
         ]
       },
       {
-        id: '/vegetable/zhaobiao/rou',
+        id: '/vegetable/zhaobiao/gan',
         parentId: '/vegetable/zhaobiao',
         name: '干杂招标',
         route: '/vegetable/zhaobiao/gan',
@@ -53,7 +53,7 @@ const menus = [
         ]
       },
       {
-        id: '/vegetable/zhaobiao/rou',
+        id: '/vegetable/zhaobiao/shui',
         parentId: '/vegetable/zhaobiao',
         name: '水产招标',
         route: '/vegetable/zhaobiao/shui',
@@ -65,7 +65,7 @@ const menus = [
         ]
       },
       {
-        id: '/vegetable/zhaobiao/rou',
+        id: '/vegetable/zhaobiao/other',
         parentId: '/vegetable/zhaobiao',
         name: '其他招标',
         route: '/vegetable/zhaobiao/other',
@@ -79,12 +79,12 @@ const menus = [
     ]
   },
   {
-    id: '/vegetable',
+    id: '/vegetable/toubiao',
     name: '菜品投标结果',
     icon: '',
     children: [
       {
-        id: '/vegetable/toubiao/rou',
+        id: '/vegetable/toubiao/cai',
         parentId: '/vegetable/toubiao',
         name: '菜品投标',
         route: '/vegetable/toubiao/cai',
@@ -108,7 +108,7 @@ const menus = [
         ]
       },
       {
-        id: '/vegetable/toubiao/rou',
+        id: '/vegetable/toubiao/gan',
         parentId: '/vegetable/toubiao',
         name: '干杂投标',
         route: '/vegetable/toubiao/gan',
@@ -120,7 +120,7 @@ const menus = [
         ]
       },
       {
-        id: '/vegetable/toubiao/rou',
+        id: '/vegetable/toubiao/shui',
         parentId: '/vegetable/toubiao',
         name: '水产投标',
         route: '/vegetable/toubiao/shui',
@@ -132,7 +132,7 @@ const menus = [
         ]
       },
       {
-        id: '/vegetable/toubiao/rou',
+        id: '/vegetable/toubiao/other',
         parentId: '/vegetable/toubiao',
         name: '其他投标',
         route: '/vegetable/toubiao/other',

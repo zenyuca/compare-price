@@ -1,5 +1,5 @@
 <template lang="pug">
-  #rou
+  #tbshui
     c-header(:menuNames="menuNames")
       .toolbar(slot="right")
         el-button(type="primary", @click="exportExcel", style="margin-right: 40px; width: 180px;")
@@ -30,7 +30,7 @@
   import { mapGetters, mapActions } from 'vuex'
 
   export default {
-    name: 'rou',
+    name: 'tbshui',
     components: {
       CHeader,
       importBtn,
@@ -67,7 +67,7 @@
 </script>
 
 <style lang="less">
-  #rou {
+  #tbshui {
     width: 100%;
     height: 100%;
   }

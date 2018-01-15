@@ -19,7 +19,7 @@
               el-table-column(label-class-name='notices-header', align='center', prop='name', label='图片名称')
               el-table-column(label-class-name='notices-header', align='center', prop='image', label='图片')
                 template(slot-scope='scope')
-                  img(:src="scope.row.url", title="点击预览", @click="imgPreview(scope.row.url)")
+                  img.table-img(:src="scope.row.url", title="点击预览", @click="imgPreview(scope.row.url)")
               el-table-column(label-class-name='notices-header', align='center', prop='url', label='图片连接')
               el-table-column(label-class-name='notices-header', align='center', width="180", label='操作', fixed="right")
                 template.operator(slot-scope='scope')
@@ -198,12 +198,10 @@
   #rou {
     width: 100%;
     height: 100%;
-    .notices {
-      img {
-        width: 50px;
-        height: 50px;
-        cursor: pointer;
-      }
+    .table-img {
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
     }
     .bar-btn {
       padding-bottom: 0;

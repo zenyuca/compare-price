@@ -38,7 +38,7 @@
 
   export default {
     components: {},
-    name: 'menu',
+    name: 'cmenu',
     data () {
       return {
         account: {}

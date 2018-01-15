@@ -1,5 +1,5 @@
 <template lang="pug">
-  #rou
+  #zbrou
     c-header(:menuNames="menuNames")
       .toolbar(slot="right")
         import-btn
@@ -31,7 +31,7 @@
   import { mapGetters, mapActions } from 'vuex'
 
   export default {
-    name: 'rou',
+    name: 'zbrou',
     components: {
       CHeader,
       importBtn,
@@ -68,7 +68,7 @@
 </script>
 
 <style lang="less">
-  #rou {
+  #zbrou {
     width: 100%;
     height: 100%;
   }
