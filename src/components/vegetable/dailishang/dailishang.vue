@@ -1,8 +1,8 @@
 <template lang="pug">
-  #rou
+  #rou.rou
     c-header(:menuNames="menuNames")
       .toolbar(slot="right")
-        el-button(type="primary", @click="add", style="margin-right: 40px; width: 180px;")
+        el-button(v-if="getAccount.role === 1", type="primary", @click="add", style="margin-right: 40px; width: 180px;")
           | 添加
     .wrapper-list-content
       .wrapper-list-middle
@@ -20,11 +20,11 @@
                 template.operator(slot-scope='scope')
                   el-button.btn-edit(type='text', size='small',@click="remarkList(scope.row.id)")
                     | 查看备注
-                  el-button.btn-edit(type='text', size='small',@click="remark(scope.row.id)")
+                  el-button.btn-edit(v-if="getAccount.role === 1", type='text', size='small',@click="remark(scope.row.id)")
                     | 添加备注
-                  el-button.btn-edit(type='text', size='small',@click="edit(scope.row.id)")
+                  el-button.btn-edit(v-if="getAccount.role === 1", type='text', size='small',@click="edit(scope.row.id)")
                     | 修改
-                  el-button.btn-del(type='text', size='small',@click="del(scope.row.id)")
+                  el-button.btn-del(v-if="getAccount.role === 1", type='text', size='small',@click="del(scope.row.id)")
                     | 删除
           el-dialog(v-model="showForm", size="tiny", :title="dialogTitle")
             el-form(:model="info", :rules="rules", ref="ruleForm", label-position="top", class="public-form")
@@ -162,7 +162,7 @@
     mounted () {
     },
     computed: {
-      ...mapGetters([])
+      ...mapGetters(['getAccount'])
     },
     methods: {
       ...filters,
@@ -219,6 +219,11 @@
         })
       },
       remarkList (id) {
+        if (this.getAccount.role === 0) {
+          alert('代理商')
+        } else if (this.getAccount.role === 1) {
+          alert('管理员')
+        }
         this.showRemarkList = true
       },
       remark (id) {

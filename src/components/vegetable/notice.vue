@@ -1,5 +1,5 @@
 <template lang="pug">
-  #rou
+  #rou.rou
     c-header(:menuNames="menuNames")
     .wrapper-list-content
       .wrapper-list-middle

@@ -1,5 +1,5 @@
 <template lang="pug">
-  #tbshui
+  #tbshui.rou
     c-header(:menuNames="menuNames")
       .toolbar(slot="right")
         el-button(type="primary", @click="exportExcel", style="margin-right: 40px; width: 180px;")
@@ -61,6 +61,8 @@
       ...filters,
       ...mapActions([]),
       loadData () {
+      },
+      exportExcel () {
       }
     }
   }

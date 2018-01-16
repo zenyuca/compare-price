@@ -1,5 +1,5 @@
 <template lang="pug">
-  #rou
+  #rou.rou
     c-header(:menuNames="menuNames")
       .toolbar(slot="right")
         .searcher
