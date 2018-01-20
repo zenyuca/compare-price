@@ -33,6 +33,12 @@
       CHeader,
       CPage
     },
+    props: {
+      type: {
+        type: Number,
+        default: 0
+      }
+    },
     data () {
       return {
         showForm: false,
@@ -51,6 +57,7 @@
       }
     },
     created () {
+      alert(this.type)
     },
     destroyed () {
     },

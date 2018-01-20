@@ -64,6 +64,7 @@
               this.user.role = 0
             }
             this.storeAccount(this.user)
+            window.sessionStorage.setItem('user', JSON.stringify(this.user))
             initMenu(this.$router, this.getAccount)
             this.$router.replace('/index')
 
@@ -71,7 +72,7 @@
             // this.loginPassword({phone, pwd: md5(pwd)}).then((data) => {
             //   console.log(data)
             //   this.storeAccount(data)
-            //   window.sessionStorage.setItem('user', JSON.stringify(data))
+
             //   // 加载系统协议配置数据
             //   this.getProtocol().then((data) => {
             //     this.getShareData.exportProtocol = data

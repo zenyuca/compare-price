@@ -16,6 +16,7 @@ import '../static/theme/element/index.css'
 import { mapGetters, mapActions } from 'vuex'
 import Socket from './core/socket/index'
 import './components/common/less/common.less'
+import { initMenu } from './core/menu/index'
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)
@@ -38,6 +39,7 @@ let vm = new Vue({
       this.getProtocol().then((data) => {
         this.getShareData.exportProtocol = data
       })
+      initMenu(this.$router, user)
     } else {
       this.$router.replace('/')
     }

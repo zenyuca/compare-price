@@ -2,7 +2,7 @@
   #zbrou
     c-header(:menuNames="menuNames")
       .toolbar(slot="right")
-        import-btn
+        import-btn(:type="4")
         el-button(v-if="getAccount.role === 0", type="primary", @click="exportExcel", style="margin-right: 40px; width: 180px;")
           | 导出
     .wrapper-list-content
