@@ -149,7 +149,6 @@ const menus = [
     id: '/vegetable/dailishang',
     name: '代理商管理',
     icon: '',
-    role: 1,
     children: [
       {
         id: '/vegetable/dailishang',

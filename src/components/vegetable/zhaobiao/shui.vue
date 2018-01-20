@@ -1,5 +1,5 @@
 <template lang="pug">
-  #zbshui
+  #zbshui.rou
     c-header(:menuNames="menuNames")
       .toolbar(slot="right")
         import-btn(:type="5")
@@ -62,6 +62,8 @@
       ...filters,
       ...mapActions([]),
       loadData () {
+      },
+      exportExcel () {
       }
     }
   }

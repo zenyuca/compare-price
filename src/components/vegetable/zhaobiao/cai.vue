@@ -1,5 +1,5 @@
 <template lang="pug">
-  #zbcai
+  #zbcai.rou
     c-header(:menuNames="menuNames")
       .toolbar(slot="right")
         import-btn(:type="1")
@@ -62,6 +62,8 @@
       ...filters,
       ...mapActions([]),
       loadData () {
+      },
+      exportExcel () {
       }
     }
   }

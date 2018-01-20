@@ -1,5 +1,5 @@
 <template lang="pug">
-  #zbother
+  #zbother.rou
     c-header(:menuNames="menuNames")
       .toolbar(slot="right")
         import-btn(:type="3")
@@ -62,6 +62,8 @@
       ...filters,
       ...mapActions([]),
       loadData () {
+      },
+      exportExcel () {
       }
     }
   }
