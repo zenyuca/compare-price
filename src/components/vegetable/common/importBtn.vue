@@ -9,7 +9,7 @@
         el-form-item(label="招标截止日期：", prop="endDate")
           el-date-picker(v-model='info.endDate', type='date', style="width: 100%", align='right', placeholder='截止日期')
         el-form-item(label="招标文件：", prop="fileList")
-          el-upload(class="upload-demo", action="https://jsonplaceholder.typicode.com/posts/", :on-success="onSuccess", :on-remove="handleRemove", :file-list="info.fileList", list-type="picture-card")
+          el-upload(class="upload-demo", action="/rest/file/upload", :on-success="onSuccess", :on-remove="handleRemove", :file-list="info.fileList", list-type="picture-card")
             i.el-icon-plus
         el-form-item.bar-btn(style="padding-bottom: 0px;")
           el-button(type="primary", @click="sure")
@@ -37,27 +37,32 @@
       type: {
         type: Number,
         default: 0
+      },
+      exportId: {
+        type: String,
+        default: 0
       }
     },
     data () {
       return {
         showForm: false,
-        info: {},
+        info: {
+          fileList: []
+        },
         rules: {
           title: [
             { required: true, message: '请输入表格题目', trigger: 'blur' }
           ],
           endDate: [
-            { required: true, message: '请选择截止日期', trigger: 'blur' }
+            { type: 'date', required: true, message: '请选择截止日期', trigger: 'blur' }
           ],
           fileList: [
-            { required: true, message: '请上传模板文件', trigger: 'blur' }
+            { type: 'array', required: true, message: '请上传模板文件', trigger: 'blur' }
           ]
         }
       }
     },
     created () {
-      alert(this.type)
     },
     destroyed () {
     },
@@ -68,11 +73,24 @@
     },
     methods: {
       ...filters,
-      ...mapActions([]),
+      ...mapActions(['adminImportExcel', 'importTenderExcel']),
       sure () {
         this.$refs['ruleForm'].validate((valid) => {
           if (valid) {
-            alert('add')
+            let param = {
+              files: {
+                id: this.info.fileList[0].id,
+                url: this.info.fileList[0].url
+              },
+              endTime: this.info.endDate,
+              type: this.type
+            }
+            this.adminImportExcel(param).then((data) => {
+              this.showForm = false
+              this.$emit('my-event')
+            }).catch((data) => {
+              this.$alert(data.msg)
+            })
           } else {
             return false
           }
@@ -82,12 +100,12 @@
       },
       // 上传成功
       onSuccess (response, file, files) {
-        this.activity.pictures.push(response.data)
+        this.info.fileList.push(response.data)
       },
       handleRemove (file, files) {
         this.getRemoveId(file.id)
         let id = file.id || file.response.data.id
-        this.activity.pictures = _.remove(this.activity.pictures, (e) => {
+        this.info.fileList = _.remove(this.info.fileList, (e) => {
           return e.id !== id
         })
       },
@@ -106,7 +124,9 @@
         }
         this.tableData = []
         this.loadingInstance = Loading.service({text: `文件上传中，请耐心等待……`})
-        this.importSalaryBillExcel(formData).then((data) => {
+        formData.type = this.type
+        formData.exportId = this.exportId
+        this.importTenderExcel(formData).then((data) => {
           this.filed = data.header
           for (let item of data.data) {
             this.tableData.push(item)
@@ -114,10 +134,10 @@
           let fileE = document.getElementById('input-file')
           fileE.value = ''
           this.loadingInstance.close()
-          console.log(JSON.stringify(this.tableData, null, 2))
         }).catch((data) => {
           alert(data.msg)
           this.loading = false
+          this.loadingInstance.close()
         })
       }
     }

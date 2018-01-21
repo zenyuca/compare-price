@@ -54,29 +54,27 @@
       pe.style['padding-top'] = `${(pe.clientHeight - h) / 2}px`
     },
     methods: {
-      ...mapActions(['storeAccount', 'getSysApi', 'storeSetting', 'marrylogin', 'loginPassword', 'getProtocol']),
+      ...mapActions(['storeAccount', 'adminLogin']),
       login () {
         this.$refs['form-user'].validate((valid) => {
           if (valid) {
+            this.adminLogin(this.user).then((data) => {
+              this.storeAccount(data.user)
+              window.sessionStorage.setItem('user', JSON.stringify(this.user))
+              initMenu(this.$router, this.getAccount)
+              this.$router.replace('/index')
+            }).catch((data) => {
+              this.$alert(data.msg)
+            })
             if (this.user.name === '13458500321') {
               this.user.role = 1
             } else {
               this.user.role = 0
             }
-            this.storeAccount(this.user)
-            window.sessionStorage.setItem('user', JSON.stringify(this.user))
-            initMenu(this.$router, this.getAccount)
-            this.$router.replace('/index')
-
             // const {phone, pwd} = this.user
             // this.loginPassword({phone, pwd: md5(pwd)}).then((data) => {
             //   console.log(data)
             //   this.storeAccount(data)
-
-            //   // 加载系统协议配置数据
-            //   this.getProtocol().then((data) => {
-            //     this.getShareData.exportProtocol = data
-            //   })
             // }).catch((data) => {
             //   this.$alert(data.msg || '服务器异常', '提示', {
             //     confirmButtonText: '确定',

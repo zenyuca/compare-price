@@ -36,9 +36,9 @@ let vm = new Vue({
       user = JSON.parse(user)
       this.storeAccount(user)
       // 加载系统协议配置数据
-      this.getProtocol().then((data) => {
-        this.getShareData.exportProtocol = data
-      })
+      // this.getProtocol().then((data) => {
+      //   this.getShareData.exportProtocol = data
+      // })
       initMenu(this.$router, user)
     } else {
       this.$router.replace('/')

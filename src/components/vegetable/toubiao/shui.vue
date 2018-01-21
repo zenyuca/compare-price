@@ -2,7 +2,7 @@
   #tbshui.rou
     c-header(:menuNames="menuNames")
       .toolbar(slot="right")
-        el-button(type="primary", @click="exportExcel", style="margin-right: 40px; width: 180px;")
+        el-button(type="primary", @click="exportInfo", style="margin-right: 40px; width: 180px;")
           | 导出
     .wrapper-list-content
       .wrapper-list-middle
@@ -11,15 +11,15 @@
             .title
               | 2018-1-25 蔬菜招标模板
             el-table(:data='tableData', :border="false", row-class-name="notices-row")
-              el-table-column(label-class-name='notices-header', align='center', width="77", prop='number', label='序号', fixed="left")
-              el-table-column(label-class-name='notices-header', align='center', prop='name', label='红娘姓名')
-              el-table-column(label-class-name='notices-header', align='center', prop='sex', label='性别')
-              el-table-column(label-class-name='notices-header', align='center', prop='phone', label='联系电话')
-              el-table-column(label-class-name='notices-header', align='center', prop='createTime', label='申请时间')
-              el-table-column(label-class-name='notices-header', align='center', width="180", label='操作', fixed="right")
-                template(slot-scope='scope')
-                  el-button.btn-edit(type='text', size='small',@click="edit(scope.row.id)")
-                    | 审核
+              el-table-column(label-class-name='notices-header', align='center', width="77", prop='num', label='序号', fixed="left")
+              el-table-column(label-class-name='notices-header', align='center', prop='name', label='名 称')
+              el-table-column(label-class-name='notices-header', align='center', prop='spec', label='规格')
+              el-table-column(label-class-name='notices-header', align='center', prop='number', label='数量')
+              el-table-column(label-class-name='notices-header', align='center', prop='unitPrice', label='单 价')
+              el-table-column(label-class-name='notices-header', align='center', prop='agentName', label='供应商名称')
+              el-table-column(label-class-name='notices-header', align='center', prop='business', label='菜品要求')
+              el-table-column(label-class-name='notices-header', align='center', prop='url', label='实物图片')
+              el-table-column(label-class-name='notices-header', align='center', prop='remark', label='备注')
 </template>
 
 <script>
@@ -45,10 +45,12 @@
             on: true
           }
         ],
-        tableData: []
+        tableData: [],
+        type: 3
       }
     },
     created () {
+      this.loadData()
     },
     destroyed () {
     },
@@ -59,10 +61,19 @@
     },
     methods: {
       ...filters,
-      ...mapActions([]),
+      ...mapActions(['findTenderResult', 'exportTenderResult']),
       loadData () {
+        this.findTenderResult(this.type).then((data) => {
+          this.tableData = data
+        }).catch((data) => {
+          this.$alert(data.msg)
+        })
       },
-      exportExcel () {
+      exportInfo () {
+        const newTab = window.open('about:blank')
+        this.exportTenderResult(this.type).then((url) => {
+          newTab.location.href = url
+        })
       }
     }
   }

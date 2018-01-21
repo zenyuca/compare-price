@@ -12,6 +12,7 @@ import workerActions from './actions/orgmanage/worker/index'
 import cadreActions from './actions/orgmanage/cadre/index'
 import commonActions from './actions/common/index'
 import systemActions from './actions/system/index'
+import vegetableActions from './actions/vegetable/index'
 // business
 import articleActions from './actions/business/article/index'
 import loveActions from './actions/business/love/index'
@@ -112,6 +113,7 @@ export default new Vuex.Store({
     ...commonActions,
     ...systemActions,
     ...cadreActions,
+    ...vegetableActions,
     storeMenus ({commit}, menus) {
       commit(types.MENUS, menus)
     },

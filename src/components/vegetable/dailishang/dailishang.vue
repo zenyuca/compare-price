@@ -10,12 +10,12 @@
           .notices
             el-table(:data='tableData', :border="true", row-class-name="notices-row")
               el-table-column(label-class-name='notices-header', align='center', width="77", prop='seq', label='序号', fixed="left")
-              el-table-column(label-class-name='notices-header', align='center', prop='username', label='公司名称（用户名）')
+              el-table-column(label-class-name='notices-header', align='center', prop='name', label='公司名称（用户名）')
               el-table-column(label-class-name='notices-header', align='center', prop='pwd', label='登录密码')
-              el-table-column(label-class-name='notices-header', align='center', prop='contacts', label='联系人')
-              el-table-column(label-class-name='notices-header', align='center', prop='phone', label='联系电话')
+              el-table-column(label-class-name='notices-header', align='center', prop='linkman', label='联系人')
+              el-table-column(label-class-name='notices-header', align='center', prop='mobile', label='联系电话')
               el-table-column(label-class-name='notices-header', align='center', prop='email', label='邮箱')
-              el-table-column(label-class-name='notices-header', align='center', prop='wechat', label='微信')
+              el-table-column(label-class-name='notices-header', align='center', prop='wecatId', label='微信')
               el-table-column(label-class-name='notices-header', align='center', width="250", label='操作', fixed="right")
                 template.operator(slot-scope='scope')
                   el-button.btn-edit(type='text', size='small',@click="remarkList(scope.row.id)")
@@ -28,18 +28,18 @@
                     | 删除
           el-dialog(v-model="showForm", size="tiny", :title="dialogTitle")
             el-form(:model="info", :rules="rules", ref="ruleForm", label-position="top", class="public-form")
-              el-form-item(label="公司名称（用户名）：", prop="username")
-                el-input(v-model="info.username")
+              el-form-item(label="公司名称（用户名）：", prop="name")
+                el-input(v-model="info.name")
               el-form-item(label="登录密码：", prop="pwd")
                 el-input(v-model="info.pwd")
-              el-form-item(label="联系人：", prop="contacts")
-                el-input(v-model="info.contacts")
-              el-form-item(label="联系电话：", prop="phone")
-                el-input(v-model="info.phone")
+              el-form-item(label="联系人：", prop="linkman")
+                el-input(v-model="info.linkman")
+              el-form-item(label="联系电话：", prop="mobile")
+                el-input(v-model="info.mobile")
               el-form-item(label="邮箱：", prop="email")
                 el-input(v-model="info.email")
-              el-form-item(label="微信：", prop="wechat")
-                el-input(v-model="info.wechat")
+              el-form-item(label="微信：", prop="wecatId")
+                el-input(v-model="info.wecatId")
               el-form-item.bar-btn()
                 el-button(type="primary", @click="sure")
                   | 确定
@@ -98,7 +98,7 @@
         info: {},
         remarkInfo: {},
         rules: {
-          username: [
+          name: [
             { required: true, message: '请输入用户名', trigger: 'blur' }
           ],
           pwd: [
@@ -129,33 +129,11 @@
             time: new Date().getTime()
           }
         ],
-        tableData: [
-          {
-            seq: 1,
-            id: 1,
-            username: '里斯',
-            pwd: '2343242',
-            contacts: '张老外',
-            phone: '13412341234',
-            email: '13412341234@qq.com',
-            wechat: '13412341234',
-            remark: '放开'
-          },
-          {
-            seq: 2,
-            id: 2,
-            username: '里斯33',
-            pwd: '2343242',
-            contacts: '张老外',
-            phone: '13412341234',
-            email: '13412341234@qq.com',
-            wechat: '13412341234',
-            remark: '不好啊'
-          }
-        ]
+        tableData: []
       }
     },
     created () {
+      this.loadData()
     },
     destroyed () {
     },
@@ -166,17 +144,34 @@
     },
     methods: {
       ...filters,
-      ...mapActions([]),
+      ...mapActions(['findAgentList', 'addAgent', 'delAgent', 'updateAgent']),
       loadData () {
+        this.findAgentList().then((data) => {
+          let seq = 0
+          let list = []
+          for (let item of data) {
+            item.seq = ++seq
+            list.push(item)
+          }
+          this.tableData = list
+        }).catch((data) => {
+          this.$alert(data.msg)
+        })
       },
       del (id) {
-        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        this.$confirm('此操作将永久删除该数据, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          alert('del')
-        }).catch(() => {
+          this.delAgent(id).then((data) => {
+            this.loadData()
+            this.$alert('删除成功')
+          }).catch((data) => {
+            this.$alert(data.msg)
+          })
+        }).catch((data) => {
+          this.$alert(data.msg)
         })
       },
       edit (id) {
@@ -200,9 +195,21 @@
         this.$refs['ruleForm'].validate((valid) => {
           if (valid) {
             if (this.dialogTitle === '添加') {
-              alert('add')
+              this.addAgent(this.info).then((data) => {
+                this.loadData()
+                this.info = {}
+                this.showForm = false
+              }).catch((data) => {
+                this.$alert(data.msg)
+              })
             } else if (this.dialogTitle === '修改') {
-              alert('edit')
+              this.updateAgent(this.info).then((data) => {
+                this.loadData()
+                this.info = {}
+                this.showForm = false
+              }).catch((data) => {
+                this.$alert(data.msg)
+              })
             }
           } else {
             return false
