@@ -34,7 +34,7 @@
               el-form-item(label="图片名称", prop="name")
                 el-input(v-model="info.name")
               el-form-item(label="图片：", prop="id")
-                el-upload(class="upload-demo", action="https://jsonplaceholder.typicode.com/posts/", :on-success="onSuccess", :on-preview="handlePreview", :on-remove="handleRemove", :file-list="fileList", list-type="picture-card")
+                el-upload(class="upload-demo", :action="uploadUrl", :on-success="onSuccess", :on-preview="handlePreview", :on-remove="handleRemove", :file-list="fileList", list-type="picture-card")
                   i.el-icon-plus
               el-form-item(label="图片连接：", prop="url")
                 | {{info.url}}
@@ -51,6 +51,7 @@
   import filters from '../../../core/filters/index'
   import _ from 'lodash'
   import { mapGetters, mapActions } from 'vuex'
+  import config from '../../../core/config/index'
 
   export default {
     name: 'rou',
@@ -60,6 +61,7 @@
     },
     data () {
       return {
+        ...config,
         menuNames: [
           {
             name: '圖片管理',

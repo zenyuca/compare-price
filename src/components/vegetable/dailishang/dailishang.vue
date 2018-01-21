@@ -56,7 +56,7 @@
               el-form-item(label="备注内容", prop="content")
                 el-input(v-model="remarkInfo.content")
               el-form-item(label="图片：", prop="image")
-                el-upload(class="upload-demo", action="https://jsonplaceholder.typicode.com/posts/", :on-success="onSuccess", :on-preview="handlePreview", :on-remove="handleRemove", :file-list="fileList", list-type="picture-card")
+                el-upload(class="upload-demo", :action="uploadUrl", :on-success="onSuccess", :on-preview="handlePreview", :on-remove="handleRemove", :file-list="fileList", list-type="picture-card")
                   i.el-icon-plus
               el-form-item.bar-btn()
                 el-button(type="primary", @click="sureRemark")
@@ -70,6 +70,7 @@
   import CPage from '../../common/page/cPage.vue'
   import filters from '../../../core/filters/index'
   import { mapGetters, mapActions } from 'vuex'
+  import config from '../../../core/config/index'
   import _ from 'lodash'
 
   export default {
@@ -80,6 +81,7 @@
     },
     data () {
       return {
+        ...config,
         menuNames: [
           {
             name: '代理商管理',
