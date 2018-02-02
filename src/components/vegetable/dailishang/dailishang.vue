@@ -51,7 +51,7 @@
                 template(slot-scope='scope')
                   img.table-img(:src="scope.row.url", title="点击预览", @click="imgPreview(scope.row.url)")
               el-table-column(label-class-name='notices-header', align='center', prop='time', label='备注时间')
-              el-table-column(label-class-name='notices-header', align='center', width="250", label='操作', fixed="right")
+              el-table-column(v-if="getAccount.role === 1", label-class-name='notices-header', align='center', width="250", label='操作', fixed="right")
                 template.operator(slot-scope='scope')
                   el-button.btn-del(v-if="getAccount.role === 1",type='text', size='small',@click="delRemark(scope.row.id)")
                     | 删除
