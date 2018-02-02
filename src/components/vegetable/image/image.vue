@@ -23,8 +23,8 @@
               el-table-column(label-class-name='notices-header', align='center', prop='url', label='图片连接')
               el-table-column(label-class-name='notices-header', align='center', width="180", label='操作', fixed="right")
                 template.operator(slot-scope='scope')
-                  el-button.btn-edit(type='text', size='small',@click="edit(scope.row.id)")
-                    | 修改
+                  <!--el-button.btn-edit(type='text', size='small',@click="edit(scope.row.id)")-->
+                    <!--| 修改-->
                   el-button.btn-del(type='text', size='small',@click="del(scope.row.id)")
                     | 删除
           .bar-page
@@ -33,11 +33,11 @@
             el-form(:model="info", :rules="rules", ref="ruleForm", label-position="top", class="public-form")
               el-form-item(label="图片名称", prop="name")
                 el-input(v-model="info.name")
-              el-form-item(label="图片：", prop="id")
-                el-upload(class="upload-demo", :action="uploadUrl", :on-success="onSuccess", :on-preview="handlePreview", :on-remove="handleRemove", :file-list="fileList", list-type="picture-card")
+              el-form-item(label="图片：", prop="fileList")
+                el-upload(class="upload-demo", :action="uploadUrl", :on-success="onSuccess", :on-preview="handlePreview", :on-remove="handleRemove", :file-list="info.fileList", list-type="picture-card")
                   i.el-icon-plus
-              el-form-item(label="图片连接：", prop="url")
-                | {{info.url}}
+              <!--el-form-item(label="图片连接：", prop="url")-->
+                <!--| {{info.fileList[0].url}}-->
               el-form-item.bar-btn()
                 el-button(type="primary", @click="sure")
                   | 确定
@@ -64,7 +64,7 @@
         ...config,
         menuNames: [
           {
-            name: '圖片管理',
+            name: '图片管理',
             route: '',
             on: true
           }
@@ -81,46 +81,51 @@
         dialogVisible: false,
         dialogTitle: '',
         showForm: false,
-        fileList: [],
         // 表单数据
-        info: {},
+        info: {
+          fileList: []
+        },
         rules: {
           name: [
             { required: true, message: '请输入图片名称', trigger: 'blur' }
           ],
-          id: [
-            { required: true, message: '请上传图片', trigger: 'blur' }
+          fileList: [
+            { type: 'array', required: true, message: '请上传图片', trigger: 'change' }
           ]
         },
-        tableData: [
-          {
-            seq: 1,
-            id: 1,
-            name: '呀肉',
-            url: 'http://pic4.nipic.com/20091217/3885730_124701000519_2.jpg'
-          },
-          {
-            seq: 2,
-            id: 2,
-            name: '猪肉',
-            url: 'http://img.zcool.cn/community/01690955496f930000019ae92f3a4e.jpg@2o.jpg'
-          }
-        ]
+        tableData: []
       }
     },
     created () {
+      this.loadData()
     },
     destroyed () {
     },
     mounted () {
     },
     computed: {
-      ...mapGetters([])
+      ...mapGetters(['getPage'])
     },
     methods: {
       ...filters,
-      ...mapActions([]),
+      ...mapActions(['updateImage', 'findImage', 'delImage']),
       loadData () {
+        let keyParam = {
+          searchText: this.searchText,
+          searchType: this.searchType
+        }
+        this.findImage(keyParam).then((data) => {
+          let list = []
+          let i = 0
+          for (let item of data.list) {
+            item.seq = ++i
+            list.push(item)
+          }
+          this.tableData = list
+          this.getPage.total = data.total
+        }).catch((data) => {
+          this.$alert(data.msg)
+        })
       },
       del (id) {
         this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
@@ -128,8 +133,12 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          alert('del')
-        }).catch(() => {
+          this.delImage(id).then((data) => {
+            this.$alert('删除成功')
+            this.loadData()
+          })
+        }).catch((data) => {
+          this.$alert(data.msg)
         })
       },
       edit (id) {
@@ -146,16 +155,34 @@
       },
       add () {
         this.dialogTitle = '添加'
-        this.info = {}
+        this.info = {
+          fileList: []
+        }
         this.showForm = true
       },
       sure () {
         this.$refs['ruleForm'].validate((valid) => {
           if (valid) {
+            let file = this.info.fileList[0]
+            file.name = this.info.name
+            file.status = 0
+            console.log(file)
             if (this.dialogTitle === '添加') {
-              alert('add')
+              this.updateImage(file).then((data) => {
+                this.$alert('添加成功')
+                this.showForm = false
+                this.loadData()
+              }).catch((data) => {
+                this.$alert(data.msg)
+              })
             } else if (this.dialogTitle === '修改') {
-              alert('edit')
+              this.updateImage(this.info.fileList[0]).then((data) => {
+                this.$alert('修改成功')
+                this.showForm = false
+                this.loadData()
+              }).catch((data) => {
+                this.$alert(data.msg)
+              })
             }
           } else {
             return false
@@ -171,12 +198,12 @@
       },
       // 上传成功
       onSuccess (response, file, files) {
-        this.activity.pictures.push(response.data)
+        this.info.fileList.push(response.data)
       },
       handleRemove (file, files) {
         this.getRemoveId(file.id)
         let id = file.id || file.response.data.id
-        this.activity.pictures = _.remove(this.activity.pictures, (e) => {
+        this.info.fileList = _.remove(this.info.fileList, (e) => {
           return e.id !== id
         })
       },
@@ -189,7 +216,6 @@
       },
       resetChangePage () {
         this.getPage.page = 1
-        this.notices = []
         this.getPage.hasNextPage = true
       }
     }

@@ -1,4 +1,5 @@
 import * as API from '../../../api/vegetable/index'
+import _ from 'lodash'
 
 export default {
   adminImportExcel ({commit, state}, data) {
@@ -30,5 +31,16 @@ export default {
   },
   exportTenderResult ({commit, state}, type) {
     return API.exportTenderResultAPI(type)
+  },
+  updateImage ({commit, state}, file) {
+    return API.updateImageAPI(file)
+  },
+  findImage ({commit, state}, keyParam) {
+    let page = _.cloneDeep(state.page)
+    page.keyParam = keyParam
+    return API.findImageAPI(page)
+  },
+  delImage ({commit, state}, id) {
+    return API.delImageAPI(id)
   }
 }

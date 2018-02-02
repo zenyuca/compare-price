@@ -55,6 +55,23 @@ const exportTenderResultAPI = (type) => request({
   method: 'get',
   url: `/export/export/tender/result/${type}`
 })
+// 修改图片
+const updateImageAPI = (data) => request({
+  method: 'post',
+  url: `/file/update`,
+  data
+})
+// 查詢图片
+const findImageAPI = (data) => request({
+  method: 'post',
+  url: `/file/find`,
+  data
+})
+// 刪除图片
+const delImageAPI = (id) => request({
+  method: 'delete',
+  url: `/file/delete/${id}/2`
+})
 export {
   findDetailCopyByTypeAPI,
   adminImportExcelApi,
@@ -65,5 +82,8 @@ export {
   updateAgentAPI,
   adminLoginAPI,
   findTenderResultAPI,
-  exportTenderResultAPI
+  exportTenderResultAPI,
+  updateImageAPI,
+  findImageAPI,
+  delImageAPI
 }
