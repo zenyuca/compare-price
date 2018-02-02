@@ -49,14 +49,18 @@
               el-table-column(label-class-name='notices-header', align='center', prop='content', label='备注内容')
               el-table-column(label-class-name='notices-header', align='center', prop='', label='备注图片')
                 template(slot-scope='scope')
-                  img.table-img(:src="scope.row.imgUrl", title="点击预览", @click="imgPreview(scope.row.imgUrl)")
+                  img.table-img(:src="scope.row.url", title="点击预览", @click="imgPreview(scope.row.url)")
               el-table-column(label-class-name='notices-header', align='center', prop='time', label='备注时间')
+              el-table-column(label-class-name='notices-header', align='center', width="250", label='操作', fixed="right")
+                template.operator(slot-scope='scope')
+                  el-button.btn-del(v-if="getAccount.role === 1",type='text', size='small',@click="delRemark(scope.row.id)")
+                    | 删除
           el-dialog(v-model="showRemarkForm", size="tiny", title="添加备注")
             el-form(:model="remarkInfo", :rules="remarkRules", ref="remarkRuleForm", label-position="top", class="public-form")
               el-form-item(label="备注内容", prop="content")
                 el-input(v-model="remarkInfo.content")
-              el-form-item(label="图片：", prop="image")
-                el-upload(class="upload-demo", :action="uploadUrl", :on-success="onSuccess", :on-preview="handlePreview", :on-remove="handleRemove", :file-list="fileList", list-type="picture-card")
+              el-form-item(label="图片：", prop="fileList")
+                el-upload(class="upload-demo", :action="uploadUrl", :on-success="onSuccess", :on-preview="handlePreview", :on-remove="handleRemove", :file-list="remarkInfo.fileList", list-type="picture-card")
                   i.el-icon-plus
               el-form-item.bar-btn()
                 el-button(type="primary", @click="sureRemark")
@@ -98,7 +102,9 @@
         showRemarkForm: false,
         // 表单数据
         info: {},
-        remarkInfo: {},
+        remarkInfo: {
+          fileList: []
+        },
         rules: {
           name: [
             { required: true, message: '请输入用户名', trigger: 'blur' }
@@ -111,26 +117,11 @@
           content: [
             { required: true, message: '请输入备注内容', trigger: 'blur' }
           ],
-          image: [
-            { required: true, message: '请输入上传图片', trigger: 'blur' }
+          fileList: [
+            { type: 'array', required: true, message: '请上传图片', trigger: 'change' }
           ]
         },
-        remarkTableData: [
-          {
-            seq: 1,
-            id: 1,
-            content: '有栏叶',
-            imgUrl: 'http://img07.tooopen.com/images/20170410/tooopen_sy_205363675636.jpg',
-            time: new Date().getTime()
-          },
-          {
-            seq: 2,
-            id: 2,
-            content: '产品不合格',
-            imgUrl: 'http://www.taopic.com/uploads/allimg/111011/2893-11101109325830.jpg',
-            time: new Date().getTime()
-          }
-        ],
+        remarkTableData: [],
         tableData: []
       }
     },
@@ -146,7 +137,7 @@
     },
     methods: {
       ...filters,
-      ...mapActions(['findAgentList', 'addAgent', 'delAgent', 'updateAgent']),
+      ...mapActions(['findAgentList', 'addAgent', 'delAgent', 'updateAgent', 'addRemark', 'findRemarkById', 'delRemarker']),
       loadData () {
         this.findAgentList().then((data) => {
           let seq = 0
@@ -221,22 +212,56 @@
       sureRemark () {
         this.$refs['remarkRuleForm'].validate((valid) => {
           if (valid) {
-            alert('add')
+            this.remarkInfo.url = this.remarkInfo.fileList[0].url
+            this.addRemark(this.remarkInfo).then((data) => {
+              this.showRemarkForm = false
+              this.$alert('添加成功')
+            }).catch((data) => {
+              this.$alert(data.msg)
+            })
           } else {
             return false
           }
         })
       },
       remarkList (id) {
-        if (this.getAccount.role === 0) {
-          alert('代理商')
-        } else if (this.getAccount.role === 1) {
-          alert('管理员')
-        }
-        this.showRemarkList = true
+//        if (this.getAccount.role === 0) {
+//          alert('代理商')
+//        } else if (this.getAccount.role === 1) {
+        this.findRemarkById(id).then((data) => {
+          let list = []
+          let i = 0
+          for (let item of data) {
+            item.seq = ++i
+            item.time = new Date(item.createTime).Format('yyyy-MM-dd hh:mm')
+            list.push(item)
+          }
+          this.remarkTableData = list
+          this.showRemarkList = true
+        }).catch((data) => {
+          this.$alert(data.msg)
+        })
+//        }
+      },
+      delRemark (id) {
+        this.$confirm('此操作将永久删除该数据, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.delRemarker(id).then((data) => {
+            this.showRemarkList = false
+            this.$alert('删除成功')
+          }).catch((data) => {
+            this.$alert(data.msg)
+          })
+        }).catch((data) => {
+          this.$alert(data.msg)
+        })
       },
       remark (id) {
         this.showRemarkForm = true
+        this.remarkInfo.agentId = id
       },
       handlePreview (file) {
         this.dialogImageUrl = file.url
@@ -247,12 +272,12 @@
       },
       // 上传成功
       onSuccess (response, file, files) {
-        this.activity.pictures.push(response.data)
+        this.remarkInfo.fileList.push(response.data)
       },
       handleRemove (file, files) {
         this.getRemoveId(file.id)
         let id = file.id || file.response.data.id
-        this.activity.pictures = _.remove(this.activity.pictures, (e) => {
+        this.remarkInfo.fileList = _.remove(this.remarkInfo.fileList, (e) => {
           return e.id !== id
         })
       }

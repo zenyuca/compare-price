@@ -72,6 +72,33 @@ const delImageAPI = (id) => request({
   method: 'delete',
   url: `/file/delete/${id}/2`
 })
+// 增加代理商备注
+const addRemarkAPI = (data) => request({
+  method: 'post',
+  url: `/admin/add/remark`,
+  data
+})
+// 查询代理商备注
+const findRemarkByIdAPI = (id) => request({
+  method: 'get',
+  url: `/admin/find/remark/${id}`
+})
+// 删除代理商备注
+const delRemarkAPI = (id) => request({
+  method: 'delete',
+  url: `/admin/del/remark/${id}`
+})
+// 添加注意事项
+const addConfigurerAPI = (data) => request({
+  method: 'post',
+  url: `/admin/add/configure`,
+  data
+})
+// 获取注意事项
+const getConfigurerAPI = (id) => request({
+  method: 'get',
+  url: `/admin/get/configure/${id}`
+})
 export {
   findDetailCopyByTypeAPI,
   adminImportExcelApi,
@@ -85,5 +112,10 @@ export {
   exportTenderResultAPI,
   updateImageAPI,
   findImageAPI,
-  delImageAPI
+  delImageAPI,
+  addRemarkAPI,
+  findRemarkByIdAPI,
+  delRemarkAPI,
+  addConfigurerAPI,
+  getConfigurerAPI
 }

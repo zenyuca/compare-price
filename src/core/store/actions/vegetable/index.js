@@ -42,5 +42,20 @@ export default {
   },
   delImage ({commit, state}, id) {
     return API.delImageAPI(id)
+  },
+  addRemark ({commit, state}, data) {
+    return API.addRemarkAPI(data)
+  },
+  findRemarkById ({commit, state}, id) {
+    return API.findRemarkByIdAPI(id)
+  },
+  delRemarker ({commit, state}, id) {
+    return API.delRemarkAPI(id)
+  },
+  addConfigurer ({commit, state}, data) {
+    return API.addConfigurerAPI(data)
+  },
+  getConfigurer ({commit, state}, id) {
+    return API.getConfigurerAPI(id)
   }
 }

@@ -31,23 +31,13 @@
             on: true
           }
         ],
-        notice: `
-1、请投标的供应商提前在物业处认证备案，领取用户名和密码；
-
-2、未经过认证的供应商，不具有投标资格；
-
-3、投标菜品质量，要求不低于招标要求；
-
-4、低于招标要求的菜品，招标方将会予以拒收，同时永久除名供应商的投标资格；
-
-5、每月XX日，请供应商查看投标菜品的品名、数量和要求；
-
-6、每月XX日XX时为投标截止时间，超过时间的投标将不会被接受；`,
+        notice: '',
         readonly: true
       }
     },
     created () {
       this.readonly = this.getAccount.role !== 1
+      this.loadData()
     },
     destroyed () {
     },
@@ -57,11 +47,24 @@
       ...mapGetters(['getAccount'])
     },
     methods: {
-      ...mapActions([]),
+      ...mapActions(['addConfigurer', 'getConfigurer']),
       loadData () {
+        this.getConfigurer(1).then((data) => {
+          this.notice = data.content
+        }).catch((data) => {
+          this.$alert(data.msg)
+        })
       },
       edit () {
-        alert('提交')
+        let data = {
+          type: 1,
+          content: this.notice
+        }
+        this.addConfigurer(data).then((data) => {
+          this.$alert('编辑成功')
+        }).catch((data) => {
+          this.$alert(data.msg)
+        })
       }
     }
   }
