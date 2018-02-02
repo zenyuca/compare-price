@@ -9,8 +9,8 @@
         .list
           .notices
             .title
-              | 2018-1-25 蔬菜招标模板
-            el-table(:data='tableData', :border="false", row-class-name="notices-row")
+              | {{endTime}} 水产投标结果
+            el-table(:data='tableData', :border="true", row-class-name="notices-row")
               el-table-column(label-class-name='notices-header', align='center', width="77", prop='num', label='序号', fixed="left")
               el-table-column(label-class-name='notices-header', align='center', prop='name', label='名 称')
               el-table-column(label-class-name='notices-header', align='center', prop='spec', label='规格')
@@ -46,7 +46,8 @@
           }
         ],
         tableData: [],
-        type: 3
+        type: 3,
+        endTime: ''
       }
     },
     created () {
@@ -65,6 +66,9 @@
       loadData () {
         this.findTenderResult(this.type).then((data) => {
           this.tableData = data
+          if (this.tableData[0] && this.tableData[0].endTime) {
+            this.endTime = new Date(this.tableData[0].endTime).Format('yyyy-MM-dd')
+          }
         }).catch((data) => {
           this.$alert(data.msg)
         })
@@ -73,6 +77,7 @@
         const newTab = window.open('about:blank')
         this.exportTenderResult(this.type).then((url) => {
           newTab.location.href = url
+          window.open(url)
         })
       }
     }

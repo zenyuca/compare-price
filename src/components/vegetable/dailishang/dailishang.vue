@@ -9,7 +9,7 @@
         .list
           .notices
             el-table(:data='tableData', :border="true", row-class-name="notices-row")
-              el-table-column(label-class-name='notices-header', align='center', width="77", prop='seq', label='序号', fixed="left")
+              el-table-column(v-if="getAccount.role === 1", label-class-name='notices-header', align='center', width="77", prop='seq', label='序号', fixed="left")
               el-table-column(label-class-name='notices-header', align='center', prop='name', label='公司名称（用户名）')
               el-table-column(label-class-name='notices-header', align='center', prop='pwd', label='登录密码')
               el-table-column(label-class-name='notices-header', align='center', prop='linkman', label='联系人')
@@ -139,17 +139,22 @@
       ...filters,
       ...mapActions(['findAgentList', 'addAgent', 'delAgent', 'updateAgent', 'addRemark', 'findRemarkById', 'delRemarker']),
       loadData () {
-        this.findAgentList().then((data) => {
-          let seq = 0
-          let list = []
-          for (let item of data) {
-            item.seq = ++seq
-            list.push(item)
-          }
-          this.tableData = list
-        }).catch((data) => {
-          this.$alert(data.msg)
-        })
+        if (this.getAccount.role === 0) {
+          this.menuNames[0].name = '我的资料'
+          this.tableData.push(this.getAccount)
+        } else {
+          this.findAgentList().then((data) => {
+            let seq = 0
+            let list = []
+            for (let item of data) {
+              item.seq = ++seq
+              list.push(item)
+            }
+            this.tableData = list
+          }).catch((data) => {
+            this.$alert(data.msg)
+          })
+        }
       },
       del (id) {
         this.$confirm('此操作将永久删除该数据, 是否继续?', '提示', {

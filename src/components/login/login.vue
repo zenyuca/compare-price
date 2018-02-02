@@ -60,27 +60,12 @@
           if (valid) {
             this.adminLogin(this.user).then((data) => {
               this.storeAccount(data.user)
-              window.sessionStorage.setItem('user', JSON.stringify(this.user))
+              window.sessionStorage.setItem('user', JSON.stringify(data.user))
               initMenu(this.$router, this.getAccount)
               this.$router.replace('/index')
             }).catch((data) => {
               this.$alert(data.msg)
             })
-            if (this.user.name === '13458500321') {
-              this.user.role = 1
-            } else {
-              this.user.role = 0
-            }
-            // const {phone, pwd} = this.user
-            // this.loginPassword({phone, pwd: md5(pwd)}).then((data) => {
-            //   console.log(data)
-            //   this.storeAccount(data)
-            // }).catch((data) => {
-            //   this.$alert(data.msg || '服务器异常', '提示', {
-            //     confirmButtonText: '确定',
-            //     callback: action => {}
-            //   })
-            // })
           } else {
             return false
           }
