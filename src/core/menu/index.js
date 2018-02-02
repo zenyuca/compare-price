@@ -149,6 +149,7 @@ const menus = [
     id: '/vegetable/dailishang',
     name: '代理商管理',
     icon: '',
+    role: 1,
     children: [
       {
         id: '/vegetable/dailishang',
@@ -161,6 +162,19 @@ const menus = [
             componentPath: 'vegetable/dailishang/dailishang.vue'
           }
         ]
+      }
+    ]
+  },
+  {
+    id: '/vegetable/myprofile',
+    name: '我的资料',
+    role: 0,
+    route: '/vegetable/myprofile',
+    single: true,
+    routeSet: [
+      {
+        path: '/vegetable/myprofile',
+        componentPath: 'vegetable/dailishang/dailishang.vue'
       }
     ]
   },
@@ -206,6 +220,12 @@ function getRoutes (list, menus, loginUser) {
         continue
       }
     }
+    if (loginUser.role === 1) {
+      if (item.role === 0) {
+        continue
+      }
+    }
+
     if (item.routeSet) {
       for (let route of item.routeSet) {
         list.push(route)
@@ -246,6 +266,11 @@ function getMenus (loginUser) {
   for (let item of menus) {
     if (loginUser.role === 0) {
       if (item.role === 1) {
+        continue
+      }
+    }
+    if (loginUser.role === 1) {
+      if (item.role === 0) {
         continue
       }
     }

@@ -10,8 +10,8 @@
         .list
           .notices
             .title
-              | 2018-1-25 水产招标模板
-            el-table(:data='tableData', :border="false", row-class-name="notices-row")
+              | {{endTime}} 水产招标模板
+            el-table(:data='tableData', :border="true", row-class-name="notices-row")
               el-table-column(label-class-name='notices-header', align='center', width="77", prop='num', label='序号', fixed="left")
               el-table-column(label-class-name='notices-header', align='center', prop='name', label='名 称')
               el-table-column(label-class-name='notices-header', align='center', prop='category', label='小类别')
@@ -60,7 +60,8 @@
         tableData: [],
         downUrl: null,
         exportId: '',
-        type: 4
+        type: 4,
+        endTime: ''
       }
     },
     created () {
@@ -78,19 +79,16 @@
       ...mapActions(['findDetailCopyByType']),
       loadData () {
         this.findDetailCopyByType(this.type).then((data) => {
-          console.log(data)
           this.tableData = data.data
           this.downUrl = data.downUrl
           this.exportId = data.exportId
+          this.endTime = new Date(data.endTime).Format('yyyy-MM-dd')
         }).catch((data) => {
           this.$alert(data.msg)
         })
       },
       exportExcel () {
-        let elemIF = document.createElement('iframe')
-        elemIF.src = this.downUrl
-        elemIF.style.display = 'none'
-        document.body.appendChild(elemIF)
+        window.open(this.downUrl)
       }
     }
   }
@@ -100,5 +98,8 @@
   #zbshui {
     width: 100%;
     height: 100%;
+    .list {
+      overflow-x: hidden;
+    }
   }
 </style>

@@ -14,7 +14,7 @@
         el-form-item.bar-btn(style="padding-bottom: 0px;")
           el-button(type="primary", @click="sure")
             | 确定
-    .btn-export.btn-upload(v-if="getAccount.role === 0", @click="inputExcel")
+    .btn-export.btn-upload(v-if="getAccount.role === 0")
       | 导入
       input(id="input-file", type="file", accept="application/vnd.ms-excel", @change="uploadExcel($event)")
 </template>

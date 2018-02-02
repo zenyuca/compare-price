@@ -7,7 +7,7 @@
         el-dropdown(trigger="click", @command="handleCommand")
           span.el-dropdown-link
             .name
-              | {{ account.name }}
+              | {{ account.username }}
             .icon
           el-dropdown-menu(slot='dropdown')
             el-dropdown-item(command="logout")
@@ -50,9 +50,9 @@
       this.menus = getMenus(this.getAccount)
       this.account = this.getAccount
       if (this.account.role === 1) {
-        this.account.name = '欢迎你，系统管理员 ' + this.account.name
+        this.account.username = '欢迎你，系统管理员 ' + this.account.name
       } else {
-        this.account.name = '欢迎你，代理商 ' + this.account.name
+        this.account.username = '欢迎你，代理商 ' + this.account.name
       }
     },
     destroyed () {

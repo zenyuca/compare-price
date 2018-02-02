@@ -30,7 +30,7 @@ module.exports = {
     proxyTable: {
       '/rest': {
         // target: 'http://localhost:8000',
-        target: 'http://localhost:8000',
+        target: 'http://localhost:8088',
         pathRewrite: {
           '^/rest': '/rest'
         }
