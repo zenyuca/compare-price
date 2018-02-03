@@ -266,6 +266,9 @@
       },
       remark (id) {
         this.showRemarkForm = true
+        this.remarkInfo = {
+          fileList: []
+        }
         this.remarkInfo.agentId = id
       },
       handlePreview (file) {

@@ -26,9 +26,13 @@
               el-table-column(label-class-name='notices-header', align='center', prop='placeOfOrigin', label='出产地')
               el-table-column(label-class-name='notices-header', align='center', prop='remark', label='备注')
               el-table-column(label-class-name='notices-header', align='center', prop='serialNumber', label='食堂内部产品编号')
-              el-table-column(label-class-name='notices-header', align='center', prop='url', label='实物图片')
+              el-table-column(label-class-name='notices-header', align='center', prop='', label='实物图片')
+                template(slot-scope='scope')
+                  img.table-img(v-if="scope.row.url", :src="scope.row.url", title="点击预览", @click="imgPreview(scope.row.url)")
               el-table-column(label-class-name='notices-header', align='center', prop='remarks1', label='备注1')
               el-table-column(label-class-name='notices-header', align='center', prop='remarks2', label='备注2')
+            el-dialog(v-model="dialogVisible", size="small")
+              img(width="100%", :src="dialogImageUrl", alt="")
 </template>
 
 <script>
@@ -47,6 +51,7 @@
     },
     data () {
       return {
+        dialogVisible: false,
         menuNames: [
           {
             name: '干杂投标清单',
@@ -74,6 +79,9 @@
       ...mapActions(['findTenderResult', 'exportTenderResult']),
       loadData () {
         this.findTenderResult(this.type).then((data) => {
+          if (!data) {
+            return
+          }
           this.tableData = data
           if (this.tableData[0] && this.tableData[0].endTime) {
             this.endTime = new Date(this.tableData[0].endTime).Format('yyyy-MM-dd')
@@ -88,6 +96,13 @@
           newTab.location.href = url
           window.open(url)
         })
+      },
+      handlePreview (file) {
+        this.dialogImageUrl = file.url
+        this.dialogVisible = true
+      },
+      imgPreview (url) {
+        this.handlePreview({url})
       }
     }
   }
@@ -97,5 +112,13 @@
   #tbgan {
     width: 100%;
     height: 100%;
+    .list {
+      overflow-x: hidden;
+    }
+    .table-img {
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+    }
   }
 </style>

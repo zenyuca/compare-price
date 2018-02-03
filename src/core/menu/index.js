@@ -55,7 +55,7 @@ const menus = [
       {
         id: '/vegetable/zhaobiao/shui',
         parentId: '/vegetable/zhaobiao',
-        name: '水产招标',
+        name: '冻品招标',
         route: '/vegetable/zhaobiao/shui',
         routeSet: [
           {
@@ -63,18 +63,18 @@ const menus = [
             componentPath: 'vegetable/zhaobiao/shui.vue'
           }
         ]
-      },
-      {
-        id: '/vegetable/zhaobiao/other',
-        parentId: '/vegetable/zhaobiao',
-        name: '其他招标',
-        route: '/vegetable/zhaobiao/other',
-        routeSet: [
-          {
-            path: '/vegetable/zhaobiao/other',
-            componentPath: 'vegetable/zhaobiao/other.vue'
-          }
-        ]
+      // },
+      // {
+      //   id: '/vegetable/zhaobiao/other',
+      //   parentId: '/vegetable/zhaobiao',
+      //   name: '其他招标',
+      //   route: '/vegetable/zhaobiao/other',
+      //   routeSet: [
+      //     {
+      //       path: '/vegetable/zhaobiao/other',
+      //       componentPath: 'vegetable/zhaobiao/other.vue'
+      //     }
+      //   ]
       }
     ]
   },
@@ -122,7 +122,7 @@ const menus = [
       {
         id: '/vegetable/toubiao/shui',
         parentId: '/vegetable/toubiao',
-        name: '水产投标',
+        name: '冻品投标',
         route: '/vegetable/toubiao/shui',
         routeSet: [
           {
@@ -130,18 +130,18 @@ const menus = [
             componentPath: 'vegetable/toubiao/shui.vue'
           }
         ]
-      },
-      {
-        id: '/vegetable/toubiao/other',
-        parentId: '/vegetable/toubiao',
-        name: '其他投标',
-        route: '/vegetable/toubiao/other',
-        routeSet: [
-          {
-            path: '/vegetable/toubiao/other',
-            componentPath: 'vegetable/toubiao/other.vue'
-          }
-        ]
+      // },
+      // {
+      //   id: '/vegetable/toubiao/other',
+      //   parentId: '/vegetable/toubiao',
+      //   name: '其他投标',
+      //   route: '/vegetable/toubiao/other',
+      //   routeSet: [
+      //     {
+      //       path: '/vegetable/toubiao/other',
+      //       componentPath: 'vegetable/toubiao/other.vue'
+      //     }
+      //   ]
       }
     ]
   },

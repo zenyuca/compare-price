@@ -4,8 +4,8 @@
       | 导入
     el-dialog(v-if="getAccount.role === 1", v-model="showForm", size="tiny", title="导入招标模板")
       el-form(:model="info", :rules="rules", ref="ruleForm", label-position="top", class="public-form")
-        el-form-item(label="标题", prop="title")
-          el-input(v-model="info.title")
+        <!--el-form-item(label="标题", prop="title")-->
+          <!--el-input(v-model="info.title")-->
         el-form-item(label="招标截止日期：", prop="endDate")
           el-date-picker(v-model='info.endDate', type='date', style="width: 100%", align='right', placeholder='截止日期')
         el-form-item(label="招标文件：", prop="fileList")
@@ -135,7 +135,6 @@
           fileE.value = ''
           this.loadingInstance.close()
         }).catch((data) => {
-          alert(data.msg)
           this.loading = false
           this.loadingInstance.close()
         })

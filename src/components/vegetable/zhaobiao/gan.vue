@@ -27,9 +27,13 @@
               el-table-column(label-class-name='notices-header', align='center', prop='placeOfOrigin', label='出产地')
               el-table-column(label-class-name='notices-header', align='center', prop='remark', label='备注')
               el-table-column(label-class-name='notices-header', align='center', prop='serialNumber', label='食堂内部产品编号')
-              el-table-column(label-class-name='notices-header', align='center', prop='url', label='实物图片')
+              el-table-column(label-class-name='notices-header', align='center', prop='', label='实物图片')
+                template(slot-scope='scope')
+                  img.table-img(v-if="scope.row.url", :src="scope.row.url", title="点击预览", @click="imgPreview(scope.row.url)")
               el-table-column(label-class-name='notices-header', align='center', prop='remarks1', label='备注1')
               el-table-column(label-class-name='notices-header', align='center', prop='remarks2', label='备注2')
+            el-dialog(v-model="dialogVisible", size="small")
+              img(width="100%", :src="dialogImageUrl", alt="")
 </template>
 
 <script>
@@ -48,6 +52,7 @@
     },
     data () {
       return {
+        dialogVisible: false,
         menuNames: [
           {
             name: '干杂招标清单',
@@ -80,13 +85,22 @@
           this.tableData = data.data
           this.downUrl = data.downUrl
           this.exportId = data.exportId
-          this.endTime = new Date(data.endTime).Format('yyyy-MM-dd')
+          if (data.endTime) {
+            this.endTime = new Date(data.endTime).Format('yyyy-MM-dd')
+          }
         }).catch((data) => {
           this.$alert(data.msg)
         })
       },
       exportExcel () {
         window.open(this.downUrl)
+      },
+      handlePreview (file) {
+        this.dialogImageUrl = file.url
+        this.dialogVisible = true
+      },
+      imgPreview (url) {
+        this.handlePreview({url})
       }
     }
   }
@@ -98,6 +112,11 @@
     height: 100%;
     .list {
       overflow-x: hidden;
+    }
+    .table-img {
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
     }
   }
 </style>
