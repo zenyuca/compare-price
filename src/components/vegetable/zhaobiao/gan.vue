@@ -13,8 +13,8 @@
               |{{endTime}} 干杂招标模板
             el-table(:data='tableData', :border="true", row-class-name="notices-row")
               el-table-column(label-class-name='notices-header', align='center', width="77", prop='num', label='序号', fixed="left")
+              el-table-column(label-class-name='notices-header', align='center', prop='category', label='类别')
               el-table-column(label-class-name='notices-header', align='center', prop='name', label='名 称')
-              el-table-column(label-class-name='notices-header', align='center', prop='category', label='小类别')
               el-table-column(label-class-name='notices-header', align='center', prop='spec', label='规格')
               el-table-column(label-class-name='notices-header', align='center', prop='unit', label='单 位')
               el-table-column(label-class-name='notices-header', align='center', prop='business', label='供应商名称')
@@ -28,6 +28,8 @@
               el-table-column(label-class-name='notices-header', align='center', prop='remark', label='备注')
               el-table-column(label-class-name='notices-header', align='center', prop='serialNumber', label='食堂内部产品编号')
               el-table-column(label-class-name='notices-header', align='center', prop='url', label='实物图片')
+              el-table-column(label-class-name='notices-header', align='center', prop='remarks1', label='备注1')
+              el-table-column(label-class-name='notices-header', align='center', prop='remarks2', label='备注2')
 </template>
 
 <script>
