@@ -26,8 +26,8 @@ export default {
   adminLogin ({commit, state}, data) {
     return API.adminLoginAPI(data)
   },
-  findTenderResult ({commit, state}, type) {
-    return API.findTenderResultAPI(type)
+  findTenderResult ({commit, state}, data) {
+    return API.findTenderResultAPI(data)
   },
   exportTenderResult ({commit, state}, type) {
     return API.exportTenderResultAPI(type)

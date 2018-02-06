@@ -45,7 +45,7 @@
             on: true
           }
         ],
-        tableData: [],
+        tableData: ['getAccount'],
         type: 5,
         endTime: ''
       }

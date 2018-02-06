@@ -72,13 +72,17 @@
     mounted () {
     },
     computed: {
-      ...mapGetters([])
+      ...mapGetters(['getAccount'])
     },
     methods: {
       ...filters,
       ...mapActions(['findTenderResult', 'exportTenderResult']),
       loadData () {
-        this.findTenderResult(this.type).then((data) => {
+        let data = {
+          type: this.type,
+          agentId: this.getAccount.id
+        }
+        this.findTenderResult(data).then((data) => {
           if (!data) {
             return
           }
@@ -91,8 +95,12 @@
         })
       },
       exportInfo () {
+        let data = {
+          type: this.type,
+          agentId: this.getAccount.id
+        }
         const newTab = window.open('about:blank')
-        this.exportTenderResult(this.type).then((url) => {
+        this.exportTenderResult(data).then((url) => {
           newTab.location.href = url
           window.open(url)
         })

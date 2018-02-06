@@ -46,9 +46,10 @@ const adminLoginAPI = (data) => request({
   data
 })
 // 查询招标结果
-const findTenderResultAPI = (type) => request({
-  method: 'get',
-  url: `/export/find/tender/result/${type}`
+const findTenderResultAPI = (data) => request({
+  method: 'post',
+  url: `/export/find/tender/result/${data.type}`,
+  data: data.agentId
 })
 // 导出招标结果
 const exportTenderResultAPI = (type) => request({
