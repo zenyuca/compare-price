@@ -134,6 +134,7 @@
           let fileE = document.getElementById('input-file')
           fileE.value = ''
           this.loadingInstance.close()
+          this.$emit('my-event')
         }).catch((data) => {
           this.loading = false
           this.loadingInstance.close()
