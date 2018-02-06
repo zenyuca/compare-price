@@ -9,7 +9,7 @@
         .list
           .notices
             .title
-              | {{endTime}} 蔬菜投标结果
+              | 蔬菜投标结果，以{{endTime}}之后数据为准
             el-table(:data='tableData', :border="true", row-class-name="notices-row")
               el-table-column(label-class-name='notices-header', align='center', width="77", prop='num', label='序号', fixed="left")
               el-table-column(label-class-name='notices-header', align='center', prop='category', label='类别')
@@ -45,6 +45,7 @@
     },
     data () {
       return {
+        dialogImageUrl: '',
         dialogVisible: false,
         menuNames: [
           {
@@ -82,7 +83,7 @@
           }
           this.tableData = data
           if (this.tableData[0] && this.tableData[0].endTime) {
-            this.endTime = new Date(this.tableData[0].endTime).Format('yyyy-MM-dd')
+            this.endTime = new Date(this.tableData[0].endTime).Format('yyyy-MM-dd hh:mm:ss')
           }
         }).catch((data) => {
           this.$alert(data.msg)

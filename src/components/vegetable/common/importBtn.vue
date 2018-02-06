@@ -1,13 +1,13 @@
 <template lang="pug">
   div(style="float: left;")
-    el-button(type="default", v-if="getAccount.role === 1", @click="showForm = true", style="margin-right: 40px; width: 180px;")
+    el-button(type="default", v-if="getAccount.role === 1", @click="openDialog", style="margin-right: 40px; width: 180px;")
       | 导入
     el-dialog(v-if="getAccount.role === 1", v-model="showForm", size="tiny", title="导入招标模板")
       el-form(:model="info", :rules="rules", ref="ruleForm", label-position="top", class="public-form")
         <!--el-form-item(label="标题", prop="title")-->
           <!--el-input(v-model="info.title")-->
         el-form-item(label="招标截止日期：", prop="endDate")
-          el-date-picker(v-model='info.endDate', type='date', style="width: 100%", align='right', placeholder='截止日期')
+          el-date-picker(v-model='info.endDate', type='datetime', style="width: 100%", align='right', placeholder='截止日期')
         el-form-item(label="招标文件：", prop="fileList")
           el-upload(class="upload-demo", action="/rest/file/upload", :on-success="onSuccess", :on-remove="handleRemove", :file-list="info.fileList", list-type="picture-card")
             i.el-icon-plus
@@ -98,6 +98,12 @@
       },
       loadData () {
       },
+      openDialog () {
+        this.info = {
+          fileList: []
+        }
+        this.showForm = true
+      },
       // 上传成功
       onSuccess (response, file, files) {
         this.info.fileList.push(response.data)
@@ -127,15 +133,16 @@
         formData.type = this.type
         formData.exportId = this.exportId
         this.importTenderExcel(formData).then((data) => {
-          this.filed = data.header
-          for (let item of data.data) {
-            this.tableData.push(item)
-          }
+//          this.filed = data.header
+//          for (let item of data.data) {
+//            this.tableData.push(item)
+//          }
           let fileE = document.getElementById('input-file')
           fileE.value = ''
           this.loadingInstance.close()
           this.$emit('my-event')
         }).catch((data) => {
+          this.$alert(data.msg)
           this.loading = false
           this.loadingInstance.close()
         })

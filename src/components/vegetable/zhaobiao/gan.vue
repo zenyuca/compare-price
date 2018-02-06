@@ -10,7 +10,7 @@
         .list
           .notices
             .title
-              |{{endTime}} 干杂招标模板
+              | 干杂招标模板，以{{endTime}}之后数据为准
             el-table(:data='tableData', :border="true", row-class-name="notices-row")
               el-table-column(label-class-name='notices-header', align='center', width="77", prop='num', label='序号', fixed="left")
               el-table-column(label-class-name='notices-header', align='center', prop='category', label='类别')
@@ -52,6 +52,7 @@
     },
     data () {
       return {
+        dialogImageUrl: '',
         dialogVisible: false,
         menuNames: [
           {
@@ -86,7 +87,7 @@
           this.downUrl = data.downUrl
           this.exportId = data.exportId
           if (data.endTime) {
-            this.endTime = new Date(data.endTime).Format('yyyy-MM-dd')
+            this.endTime = new Date(data.endTime).Format('yyyy-MM-dd hh:mm:ss')
           }
         }).catch((data) => {
           this.$alert(data.msg)
