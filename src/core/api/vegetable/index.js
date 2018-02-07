@@ -48,13 +48,12 @@ const adminLoginAPI = (data) => request({
 // 查询招标结果
 const findTenderResultAPI = (data) => request({
   method: 'post',
-  url: `/export/find/tender/result/${data.type}`,
-  data: data.agentId
+  url: `/export/find/tender/result/${data.type}/${data.agentId}`
 })
 // 导出招标结果
-const exportTenderResultAPI = (type) => request({
-  method: 'get',
-  url: `/export/export/tender/result/${type}`
+const exportTenderResultAPI = (data) => request({
+  method: 'post',
+  url: `/export/export/tender/result/${data.type}/${data.agentId}`
 })
 // 修改图片
 const updateImageAPI = (data) => request({

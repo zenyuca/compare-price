@@ -10,7 +10,7 @@
         .list
           .notices
             .title
-              | 肉类招标模板，以{{endTime}}之后数据为准
+              | 肉类招标模板，招标截止时间为{{endTime}}
             el-table(:data='tableData', :border="true", row-class-name="notices-row")
               el-table-column(label-class-name='notices-header', align='center', width="77", prop='num', label='序号', fixed="left")
               el-table-column(label-class-name='notices-header', align='center', prop='category', label='类别')
