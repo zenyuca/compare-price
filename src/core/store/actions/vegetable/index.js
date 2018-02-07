@@ -29,8 +29,8 @@ export default {
   findTenderResult ({commit, state}, data) {
     return API.findTenderResultAPI(data)
   },
-  exportTenderResult ({commit, state}, type) {
-    return API.exportTenderResultAPI(type)
+  exportTenderResult ({commit, state}, data) {
+    return API.exportTenderResultAPI(data)
   },
   updateImage ({commit, state}, file) {
     return API.updateImageAPI(file)
