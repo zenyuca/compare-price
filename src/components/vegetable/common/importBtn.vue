@@ -9,8 +9,9 @@
         el-form-item(label="招标截止日期：", prop="endDate")
           el-date-picker(v-model='info.endDate', type='datetime', style="width: 100%", align='right', placeholder='截止日期')
         el-form-item(label="招标文件：", prop="fileList")
-          el-upload(class="upload-demo", action="/rest/file/upload", :on-success="onSuccess", :on-remove="handleRemove", :file-list="info.fileList", list-type="picture-card")
-            i.el-icon-plus
+          el-upload(class="upload-demo", action="/rest/file/upload", :on-success="onSuccess", :on-remove="handleRemove", :file-list="info.fileList")
+            el-button(size="small", type="primary", v-show="info.fileList.length < 1")
+              | 上传模板
         el-form-item.bar-btn(style="padding-bottom: 0px;")
           el-button(type="primary", @click="sure")
             | 确定
@@ -109,7 +110,6 @@
         this.info.fileList.push(response.data)
       },
       handleRemove (file, files) {
-        this.getRemoveId(file.id)
         let id = file.id || file.response.data.id
         this.info.fileList = _.remove(this.info.fileList, (e) => {
           return e.id !== id

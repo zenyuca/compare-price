@@ -24,7 +24,7 @@
                     | 添加备注
                   el-button.btn-edit(v-if="getAccount.role === 1", type='text', size='small',@click="edit(scope.row.id)")
                     | 修改
-                  el-button.btn-del(v-if="getAccount.role === 1", type='text', size='small',@click="del(scope.row.id)")
+                  el-button.btn-del(v-if="getAccount.role === 1 && getAccount.name !== scope.row.name", type='text', size='small',@click="del(scope.row.id)")
                     | 删除
           el-dialog(v-model="showForm", size="tiny", :title="dialogTitle")
             el-form(:model="info", :rules="rules", ref="ruleForm", label-position="top", class="public-form")
